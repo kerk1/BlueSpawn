@@ -2,6 +2,7 @@
 
 #include <regex>
 
+#include "hunt/Scope.h"
 #include "util/configurations/Registry.h"
 #include "util/filesystem/FileSystem.h"
 #include "util/log/Log.h"
@@ -27,7 +28,7 @@ namespace Hunts {
         SUBSECTION_INIT(PRINTERS, Cursory)
         RegistryKey printers{ HKEY_LOCAL_MACHINE, L"SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Print\\Printers",
                               true };
-        for(auto printer : printers.EnumerateSubkeys()) {
+        for(auto& printer : printers.EnumerateSubkeys()) {
             if(printer.ValueExists(L"Port")) {
                 auto value{ RegistryValue::Create(printer, L"Port") };
                 FileSystem::File filepath{ value->ToString() };
@@ -44,7 +45,7 @@ namespace Hunts {
 
         SUBSECTION_INIT(PORTS, Cursory);
         RegistryKey ports{ HKEY_LOCAL_MACHINE, L"SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Ports", true };
-        for(auto value : ports.EnumerateValues()) {
+        for(auto& value : ports.EnumerateValues()) {
             FileSystem::File filepath{ value };
 
             // Regex ensures the file is an actual drive and not, say, a COM port

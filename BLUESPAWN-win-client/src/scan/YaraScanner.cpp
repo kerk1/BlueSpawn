@@ -23,8 +23,13 @@ AllocationWrapper GetResourceRule(DWORD identifier) {
         return { nullptr, 0 };
     }
 
+    LPVOID constRsrc = LockResource(hRsrc);
+    DWORD rsrcSize = SizeofResource(nullptr, hRsrcInfo);
+    char* localRsrc = (char*) LocalAlloc(0, rsrcSize);
+    CopyMemory(localRsrc, constRsrc, rsrcSize);
+
     zip_error_t err{};
-    auto lpZipSource = zip_source_buffer_create(LockResource(hRsrc), SizeofResource(nullptr, hRsrcInfo), 0, &err);
+    auto lpZipSource = zip_source_buffer_create(localRsrc, rsrcSize, 0, &err);
     if(lpZipSource) {
         auto zip = zip_open_from_source(lpZipSource, 0, &err);
         if(zip) {
@@ -40,6 +45,15 @@ AllocationWrapper GetResourceRule(DWORD identifier) {
                             zip_fclose(fdRules);
                             zip_close(zip);
                             zip_source_close(lpZipSource);
+                            LocalFree(localRsrc);
+
+                            char last = 0xfc;
+                            char oldLast = 0;
+                            for(UINT i = 0; i < data.GetSize(); i += 1){
+                                oldLast = data[i];
+                                data[i] ^= static_cast<byte>("BLUESPAWN YARA RULES"[i % 20] + last * (i + 1) + i);
+                                last = oldLast;
+                            }
 
                             return data;
                         }
@@ -53,6 +67,7 @@ AllocationWrapper GetResourceRule(DWORD identifier) {
         zip_source_close(lpZipSource);
     }
 
+    LocalFree(localRsrc);
     return { nullptr, 0 };
 }
 
@@ -173,10 +188,10 @@ YaraScanResult YaraScanner::ScanFile(const FileSystem::File& file) const {
     }
     auto result{ ScanMemory(memory) };
 
-    for(auto identifier : result.vKnownBadRules) {
+    for(auto& identifier : result.vKnownBadRules) {
         LOG_INFO(1, file.GetFilePath() << L" matches known malicious identifier " << identifier);
     }
-    for(auto identifier : result.vIndicatorRules) {
+    for(auto& identifier : result.vIndicatorRules) {
         LOG_INFO(2, file.GetFilePath() << L" matches known indicator identifier " << identifier);
     }
 

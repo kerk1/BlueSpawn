@@ -276,12 +276,53 @@ int main(
         fprintf(stderr, "error: %d\n", result);
         exit_with_code(EXIT_FAILURE);
     }
+
     /// BEGIN MODIFICATIONS
     else{
         std::string name = std::string{ argv[argc - 1] } + ".z";
         int err{};
         auto zip = zip_open(name.c_str(), ZIP_CREATE, &err);
         if(zip){
+            HANDLE hFile = CreateFileA(
+                argv[argc - 1], GENERIC_ALL, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+            if(INVALID_HANDLE_VALUE == hFile || NULL == hFile){
+                zip_close(zip);
+                goto _exit;
+            }
+
+            ULONG upperSize = 0;
+            ULONG size = GetFileSize(hFile, &upperSize);
+
+            char* buffer = (char*) LocalAlloc(0, size);
+            if(!ReadFile(hFile, buffer, size, (DWORD*) &size, nullptr)){
+                CloseHandle(hFile);
+                LocalFree(buffer);
+                zip_close(zip);
+                goto _exit;
+            }
+
+            char last = 0xfc;
+            for(UINT i = 0; i < size; i += 1){
+                buffer[i] ^= (char) ("BLUESPAWN YARA RULES"[i % 20] + last * (i + 1) + i);
+                last = buffer[i];
+            }
+            CloseHandle(hFile);
+            hFile = CreateFileA(
+                argv[argc - 1], GENERIC_ALL, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+            if(INVALID_HANDLE_VALUE == hFile || NULL == hFile){
+                zip_close(zip);
+                goto _exit;
+            }
+
+            if(!WriteFile(hFile, buffer, size, (DWORD*) &size, nullptr)){
+                CloseHandle(hFile);
+                LocalFree(buffer);
+                zip_close(zip);
+                goto _exit;
+            }
+            CloseHandle(hFile);
+            LocalFree(buffer);
+
             auto source = zip_source_file(zip, argv[argc - 1], 0, 0);
             if(source){
                 if(-1 == zip_file_add(zip, "data", source, ZIP_FL_OVERWRITE)){
@@ -291,6 +332,7 @@ int main(
                 }
                 zip_source_close(source);
                 zip_close(zip);
+
                 MoveFileExA(name.c_str(), argv[argc - 1], MOVEFILE_REPLACE_EXISTING);
             }
             if(!source){

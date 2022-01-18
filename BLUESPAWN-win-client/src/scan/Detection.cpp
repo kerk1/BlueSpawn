@@ -417,7 +417,13 @@ size_t RegistryDetectionData::Hash() CONST {
 }
 
 bool RegistryDetectionData::operator==(IN CONST RegistryDetectionData& data) CONST {
-    return KeyPath == data.KeyPath && value->wValueName == data.value->wValueName;
+    if (!data.value && !value) {
+        return data.KeyPath == KeyPath;
+    } else if(data.value.has_value() != value.has_value()) {
+        return false;
+    } else {
+        return KeyPath == data.KeyPath && value->wValueName == data.value->wValueName;
+    }
 }
 
 ServiceDetectionData::ServiceDetectionData(IN CONST std::optional<std::wstring>& ServiceName OPTIONAL,

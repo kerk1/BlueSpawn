@@ -22,6 +22,7 @@ using namespace Registry;
 #define SSP 8
 #define PORT_MON 9
 #define TIME_PROV 10
+#define ROVER_DLL 11
 
 namespace Hunts {
 
@@ -101,6 +102,32 @@ namespace Hunts {
                 if(FileScanner::PerformQuickScan(value.GetFilePath())) {
                     CREATE_DETECTION(Certainty::Weak, FileDetectionData{ value });
                 }
+            }
+        }
+        SUBSECTION_END();
+
+        SUBSECTION_INIT(ROVER_DLL, Cursory);
+        RegistryKey roverKey{ HKEY_CLASSES_ROOT, L"CLSID\\{16d12736-7a9e-4765-bec6-f301d679caaa}" };
+        if (roverKey.Exists()) {
+            FileSystem::File roverFile{ L"C:\\windows\\system32\\rover.dll" };
+            if (roverFile.GetFileExists()) {
+
+                 auto value{ Bluespawn::detections.AddDetection(
+                    Detection{ RegistryDetectionData{ roverKey, std::nullopt,
+                                                      RegistryDetectionType::Configuration },
+                               DetectionContext{ __name } },
+                    Certainty::Strong) };
+                detections.emplace_back(value);
+
+                // The file 'rover.dll' only runs when said registry key is found, which
+                // can't be found by the scanner automatically
+                auto file{ Bluespawn::detections.AddDetection(
+                    Detection{ FileDetectionData{ roverFile }, DetectionContext{ __name } }, Certainty::Strong) };
+                detections.emplace_back(file);
+
+                // Define the association ourself
+                file->info.AddAssociation(value, Association::Certain);
+                value->info.AddAssociation(file, Association::Certain);
             }
         }
         SUBSECTION_END();
@@ -332,6 +359,8 @@ namespace Hunts {
                     std::make_pair(std::make_unique<FileEvent>(folder), SCOPE(STARTUP_ITEMS)));
             }
         }
+        GetRegistryEvents(events, SCOPE(ROVER_DLL), HKEY_CLASSES_ROOT,
+                          L"CLSID\\{16d12736-7a9e-4765-bec6-f301d679caaa}");
 
         // Looks for T1547.002 (Authentication Package) and T1547.005 (Security Support Provider)
         GetRegistryEvents(events, Scope::CreateSubhuntScope((1 << SSP) | (1 << AUTH_PACKAGE)), HKEY_LOCAL_MACHINE,

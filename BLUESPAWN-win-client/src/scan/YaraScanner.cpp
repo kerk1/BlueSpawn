@@ -31,6 +31,7 @@ AllocationWrapper GetResourceRule(DWORD identifier) {
     zip_error_t err{};
     auto lpZipSource = zip_source_buffer_create(localRsrc, rsrcSize, 0, &err);
     if(lpZipSource) {
+        zip_source_keep(lpZipSource); // Balances out ref counting
         auto zip = zip_open_from_source(lpZipSource, 0, &err);
         if(zip) {
             auto fdRules = zip_fopen(zip, "data", 0);

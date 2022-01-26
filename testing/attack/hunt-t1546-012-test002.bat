@@ -1,1 +1,0 @@
-REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\paint.exe" /v Debugger /d "C:\windows\system32\calc.exe"

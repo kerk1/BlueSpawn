@@ -113,13 +113,12 @@ namespace Hunts {
         SUBTECHNIQUE_INIT(9, AppCert DLLs);
 
         SUBSECTION_INIT(APPCERT_DLL, Cursory);
-        Registry::RegistryKey appcert_key{ HKEY_LOCAL_MACHINE, L"System\\CurrentControlSet\\Control\\Session Manager" };
-        if(appcert_key.ValueExists(L"AppCertDLLs")) {
-            for(auto dll : *appcert_key.GetValue<std::vector<std::wstring>>(L"AppCertDLLs")) {
+        Registry::RegistryKey appcertKey{ HKEY_LOCAL_MACHINE, L"System\\CurrentControlSet\\Control\\Session Manager\\AppCertDLLs" };
+        if(appcertKey.Exists()) {
+            for(auto& valueName : appcertKey.EnumerateValues()) {
                 CREATE_DETECTION(Certainty::Strong,
-                                 RegistryDetectionData{ appcert_key,
-                                                        RegistryValue{ appcert_key, L"AppCertDLLs", std::move(dll) },
-                                                        RegistryDetectionType::FileReference });
+                                 RegistryDetectionData{ *RegistryValue::Create( appcertKey, valueName ),
+                                                         RegistryDetectionType::FileReference });
             }
         }
         SUBSECTION_END();

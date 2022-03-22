@@ -1,6 +1,9 @@
 $folders = Get-ChildItem -Path Check
 $allPassed = $true
 foreach ($folder in $folders){
+    if ($folder.name.contains("SKIP")){
+        continue
+    }
     $fixedFolder = $folder.Fullname + "\Fixed"
     $checks = Get-ChildItem -Path $fixedFolder
     foreach ($check in $checks){

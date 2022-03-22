@@ -44,6 +44,9 @@ $testNames = @()
 $testPassed = @()
 $folders = Get-ChildItem -Path Check
 foreach ($folder in $folders){
+    if ($folder.name.contains("SKIP")){
+        continue
+    }
     $caughtFolder = $folder.Fullname + "\Caught"
     $checks = Get-ChildItem -Path $caughtFolder
     foreach ($check in $checks){

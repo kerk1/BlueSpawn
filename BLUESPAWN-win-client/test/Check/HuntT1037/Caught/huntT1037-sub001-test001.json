@@ -1,0 +1,14 @@
+{
+	"detections": [
+		{
+			"type": "Registry",
+			"hunt": "T1037 - Boot or Logon Initialization Scripts Subtechnique 001: Logon Script[Windows]",
+			"Key Path": "*",
+			"Key Value Data": "C:\\Windows\\Temp\\evil.dll",
+			"Key Value Name": "UserInitMprLogonScript",
+			"Registry Entry Type": "*",
+			"Fail Message": "HuntT1037-sub001-test001 Failed! Attack not caught!",
+			"Pass Message": "HuntT1037-sub001-test001 Passed!"
+		}
+	]
+}

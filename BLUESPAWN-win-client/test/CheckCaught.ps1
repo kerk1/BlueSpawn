@@ -2,20 +2,22 @@ function TestMatch($detection, $matchDetection){
     #Check Type Matches
     $dType = $detection.'type'
     $mType = $matchDetection.'type'
-    if ($dType -ne $mType){
+    if ($dType -ne $mType){ 
         return $false
     }
     #Check Hunt Matches
-    $hunts = $detection.'associated-hunts'
-    $matches = $false
-    foreach ($hunt in $hunts){
-        if ($hunt -eq $matchDetection.'hunt'){
-            $matches = $true
-            break
+    if ($matchDetection.'hunt' -ne "*"){
+        $hunts = $detection.'associated-hunts'
+        $matches = $false
+        foreach ($hunt in $hunts){
+            if ($hunt -eq $matchDetection.'hunt'){
+                $matches = $true
+                break
+            }
         }
-    }
-    if ($matches -eq $false){
-        return $false
+        if ($matches -eq $false){
+            return $false
+        }
     }
     $assocData = $detection.'associated-data'
     #Check Appropriate logs for type
@@ -29,7 +31,15 @@ function TestMatch($detection, $matchDetection){
         if ($matchDetection.'Key Value Data' -ne "*" -band $matchDetection.'Key Value Data' -ne $assocData.'Key Value Data'){
             return $false
         }
-        if ($matchDetection.'Registry Entry Type' -ne "*" -band $matchDetection.'Registry Entry Type' -ne $assocData.'Registry Entry Types'){
+        if ($matchDetection.'Registry Entry Type' -ne "*" -band $matchDetection.'Registry Entry Type' -ne $assocData.'Registry Entry Type'){
+            return $false
+        }
+    }
+    elseif ($matchDetection.'type' -eq "File"){
+        if ($matchDetection.'Name' -ne "*" -band $matchDetection.'Name' -ne $assocData.'Name'){
+            return $false
+        }
+        if ($matchDetection.'Malicious Yara Rules' -ne "*" -band $matchDetection.'Malicious Yara Rules' -ne $assocData.'Malicious Yara Rules'){
             return $false
         }
     }
@@ -64,6 +74,8 @@ foreach ($detection in $detections){
         if (TestMatch -detection $detection -matchDetection $testDetections[$i]){
             $testPassed[$i] = $true;
         }
+        #$c = TestMatch -detection $detection -matchDetection $testDetections[$i]
+        #$c
     }
 }
 $allPassed = $true

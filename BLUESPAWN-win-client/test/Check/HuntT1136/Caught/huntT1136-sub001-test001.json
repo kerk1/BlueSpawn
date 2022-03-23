@@ -1,0 +1,12 @@
+{
+	"detections": [
+		{
+			"type": "User",
+			"hunt": "T1136 - Create Account Subtechnique 001: Local Account",
+			"Context": "Users with this name are hidden from net user command.",
+			"Username": "&",
+			"Fail Message": "HuntT1136-sub001-test001 Failed! Attack not caught!",
+			"Pass Message": "HuntT1037-sub001-test001 Passed!"
+		}
+	]
+}

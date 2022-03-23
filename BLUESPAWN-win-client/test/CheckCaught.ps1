@@ -60,6 +60,9 @@ foreach ($folder in $folders){
     $caughtFolder = $folder.Fullname + "\Caught"
     $checks = Get-ChildItem -Path $caughtFolder
     foreach ($check in $checks){
+        if ($check.name.contains("SKIP")){
+            continue
+        }
         $checkLog = Get-Content $check.Fullname | ConvertFrom-Json
         $checkDetections = $checkLog.'detections'
         foreach ($detection in $checkDetections){

@@ -1,0 +1,22 @@
+{
+	"detections": [
+		{
+			"type": "Registry",
+			"hunt": "T1068 - Exploitation for Privilege Escalation",
+			"Key Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Ports",
+			"Key Value Data": "C:\\Windows\\Temp\\T1068002.dll",
+			"Key Value Name": "Evil",
+			"Registry Entry Type": "*",
+			"Fail Message": "HuntT1068-test002 Failed! Registry value not caught!",
+			"Pass Message": "HuntT1068-test002 Passed!"
+		},
+		{
+			"type": "File",
+			"hunt": "*",
+			"Name": "C:\\Windows\\Temp\\T1068001.dll",
+			"Malicious Yara Rules": "*",
+			"Fail Message": "HuntT1068-test002 Failed! File not caught!",
+			"Pass Message": "HuntT1068-test002 Passed!"
+		}
+	]
+}

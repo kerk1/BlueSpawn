@@ -43,6 +43,14 @@ function TestMatch($detection, $matchDetection){
             return $false
         }
     }
+    elseif ($matchDetection.'type' -eq "User"){
+        if ($matchDetection.'Context' -ne "*" -band $matchDetection.'Context' -ne $assocData.'Context'){
+            return $false
+        }
+        if ($matchDetection.'Username' -ne "*" -band $matchDetection.'Username' -ne $assocData.'Username'){
+            return $false
+        }
+    }
     return $true
 }
 

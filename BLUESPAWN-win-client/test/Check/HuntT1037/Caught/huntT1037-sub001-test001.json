@@ -4,10 +4,18 @@
 			"type": "Registry",
 			"hunt": "T1037 - Boot or Logon Initialization Scripts Subtechnique 001: Logon Script[Windows]",
 			"Key Path": "*",
-			"Key Value Data": "C:\\Windows\\Temp\\evil.dll",
+			"Key Value Data": "C:\\Windows\\Temp\\T1037001001.dll",
 			"Key Value Name": "UserInitMprLogonScript",
 			"Registry Entry Type": "*",
-			"Fail Message": "HuntT1037-sub001-test001 Failed! Attack not caught!",
+			"Fail Message": "HuntT1037-sub001-test001 Failed! Registry key not found!",
+			"Pass Message": "HuntT1037-sub001-test001 Passed!"
+		},
+		{
+			"type": "File",
+			"hunt": "*",
+			"Name": "C:\\Windows\\Temp\\T1037001001.dll",
+			"Malicious Yara Rules": "*",
+			"Fail Message": "HuntT1037-sub001-test001 Failed! File not found!",
 			"Pass Message": "HuntT1037-sub001-test001 Passed!"
 		}
 	]

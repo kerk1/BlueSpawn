@@ -1,0 +1,22 @@
+{
+	"detections": [
+		{
+			"type": "Registry",
+			"hunt": "T1547 - Boot or Logon Autostart Execution Subtechnique 001: Registry Run Keys / Startup Folder",
+			"Key Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Classes\\CLSID\\{16d12736-7a9e-4765-bec6-f301d679caaa}",
+			"Key Value Data": "*",
+			"Key Value Name": "*",
+			"Registry Entry Type": "Configuration",
+			"Fail Message": "HuntT1547-sub001-test011 Failed! Registry key not found!",
+			"Pass Message": "HuntT1547-sub001-test011 Passed!"
+		},
+		{
+			"type": "File",
+			"hunt": "T1547 - Boot or Logon Autostart Execution Subtechnique 001: Registry Run Keys / Startup Folder",
+			"Name": "C:\\Windows\\System32\\rover.dll",
+			"Malicious Yara Rules": "*",
+			"Fail Message": "HuntT1547-sub001-test011 Failed! File not found!",
+			"Pass Message": "HuntT1547-sub001-test011 Passed!"
+		}
+	]
+}

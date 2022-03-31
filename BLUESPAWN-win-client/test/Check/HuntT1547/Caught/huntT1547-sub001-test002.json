@@ -1,0 +1,22 @@
+{
+	"detections": [
+		{
+			"type": "Registry",
+			"hunt": "T1547 - Boot or Logon Autostart Execution Subtechnique 001: Registry Run Keys / Startup Folder",
+			"Key Path": "HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce",
+			"Key Value Data": "C:\\Windows\\Temp\\T1547001002.exe",
+			"Key Value Name": "T1547001002",
+			"Registry Entry Type": "Command",
+			"Fail Message": "HuntT1547-sub001-test002 Failed! Registry key not found!",
+			"Pass Message": "HuntT1547-sub001-test002 Passed!"
+		},
+		{
+			"type": "File",
+			"hunt": "*",
+			"Name": "C:\\Windows\\Temp\\T1547001002.exe",
+			"Malicious Yara Rules": "*",
+			"Fail Message": "HuntT1547-sub001-test002 Failed! File not found!",
+			"Pass Message": "HuntT1547-sub001-test002 Passed!"
+		}
+	]
+}

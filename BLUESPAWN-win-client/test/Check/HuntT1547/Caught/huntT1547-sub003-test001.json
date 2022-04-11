@@ -1,0 +1,22 @@
+{
+	"detections": [
+		{
+			"type": "Registry",
+			"hunt": "T1547 - Boot or Logon Autostart Execution Subtechnique 003: Time Providers",
+			"Key Path": "HKEY_LOCAL_MACHINE\\SYSTEM\\ControlSet001\\Services\\W32Time\\TimeProviders\\T1547003001",
+			"Key Value Data": "%systemroot%\\Temp\\T1547003001.dll",
+			"Key Value Name": "DllName",
+			"Registry Entry Type": "File",
+			"Fail Message": "HuntT1547-sub003-test001 Failed! Registry key not found!",
+			"Pass Message": "HuntT1547-sub003-test001 Passed!"
+		},
+		{
+			"type": "File",
+			"hunt": "T1547 - Boot or Logon Autostart Execution Subtechnique 003: Time Providers",
+			"Name": "C:\\Windows\\Temp\\T1547003001.dll",
+			"Malicious Yara Rules": "*",
+			"Fail Message": "HuntT1547-sub003-test001 Failed! File not found!",
+			"Pass Message": "HuntT1547-sub003-test001 Passed!"
+		}
+	]
+}

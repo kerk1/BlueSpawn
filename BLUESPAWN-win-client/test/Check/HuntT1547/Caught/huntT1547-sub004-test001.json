@@ -1,0 +1,22 @@
+{
+	"detections": [
+		{
+			"type": "Registry",
+			"hunt": "T1547 - Boot or Logon Autostart Execution Subtechnique 004: Winlogon Helper DLL",
+			"Key Path": "HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion\\WinLogon",
+			"Key Value Data": "C:\\Windows\\Temp\\T1547004001.exe",
+			"Key Value Name": "UserInit",
+			"Registry Entry Type": "File",
+			"Fail Message": "HuntT1547-sub004-test001 Failed! Registry key not found!",
+			"Pass Message": "HuntT1547-sub004-test001 Passed!"
+		},
+		{
+			"type": "File",
+			"hunt": "*",
+			"Name": "C:\\Windows\\Temp\\T1547004001.exe",
+			"Malicious Yara Rules": "*",
+			"Fail Message": "HuntT1547-sub004-test001 Failed! File not found!",
+			"Pass Message": "HuntT1547-sub004-test001 Passed!"
+		}
+	]
+}

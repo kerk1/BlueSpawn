@@ -1,0 +1,22 @@
+{
+	"detections": [
+		{
+			"type": "Registry",
+			"hunt": "T1547 - Boot or Logon Autostart Execution Subtechnique 002: Authentication Package",
+			"Key Path": "HKEY_LOCAL_MACHINE\\SYSTEM\\ControlSet001\\Control\\LsaExtensionConfig\\T1547002002",
+			"Key Value Data": "T1547002002.dll",
+			"Key Value Name": "Extensions",
+			"Registry Entry Type": "File",
+			"Fail Message": "HuntT1547-sub002-test002 Failed! Registry key not found!",
+			"Pass Message": "HuntT1547-sub002-test002 Passed!"
+		},
+		{
+			"type": "File",
+			"hunt": "T1547 - Boot or Logon Autostart Execution Subtechnique 002: Authentication Package",
+			"Name": "C:\\Windows\\System32\\T1547002002.dll",
+			"Malicious Yara Rules": "*",
+			"Fail Message": "HuntT1547-sub002-test002 Failed! File not found!",
+			"Pass Message": "HuntT1547-sub002-test002 Passed!"
+		}
+	]
+}

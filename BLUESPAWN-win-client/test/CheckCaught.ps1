@@ -92,7 +92,7 @@ foreach ($detection in $detections){
 $allPassed = $true
 for ($i=0; $i -lt $testDetections.Length; $i++){
     if ($testPassed[$i]){
-        Write-Output $testDetections[$i].'Pass Message'
+        #Write-Output $testDetections[$i].'Pass Message'
     }
     else {
         Write-Output $testDetections[$i].'Fail Message'

@@ -1,0 +1,22 @@
+{
+	"detections": [
+		{
+			"type": "Registry",
+			"hunt": "T1547 - Boot or Logon Autostart Execution Subtechnique 004: Winlogon Helper DLL",
+			"Key Path": "HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion\\WinLogon",
+			"Key Value Data": "T1547004002.exe",
+			"Key Value Name": "Shell",
+			"Registry Entry Type": "File",
+			"Fail Message": "HuntT1547-sub004-test002 Failed! Registry key not found!",
+			"Pass Message": "HuntT1547-sub004-test002 Passed!"
+		},
+		{
+			"type": "File",
+			"hunt": "*",
+			"Name": "C:\\Windows\\System32\\T1547004002.exe",
+			"Malicious Yara Rules": "*",
+			"Fail Message": "HuntT1547-sub004-test002 Failed! File not found!",
+			"Pass Message": "HuntT1547-sub004-test002 Passed!"
+		}
+	]
+}

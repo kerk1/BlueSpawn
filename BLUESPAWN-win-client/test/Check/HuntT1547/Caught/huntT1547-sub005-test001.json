@@ -1,0 +1,22 @@
+{
+	"detections": [
+		{
+			"type": "Registry",
+			"hunt": "T1547 - Boot or Logon Autostart Execution Subtechnique 005: Security Support Provider",
+			"Key Path": "HKEY_LOCAL_MACHINE\\SYSTEM\\ControlSet001\\Control\\LSA",
+			"Key Value Data": "*",
+			"Key Value Name": "Security Packages",
+			"Registry Entry Type": "File",
+			"Fail Message": "HuntT1547-sub005-test001 Failed! Registry key not found!",
+			"Pass Message": "HuntT1547-sub005-test001 Passed!"
+		},
+		{
+			"type": "File",
+			"hunt": "*",
+			"Name": "C:\\Windows\\System32\\T1547005001.dll",
+			"Malicious Yara Rules": "*",
+			"Fail Message": "HuntT1547-sub005-test001 Failed! File not found!",
+			"Pass Message": "HuntT1547-sub005-test011 Passed!"
+		}
+	]
+}

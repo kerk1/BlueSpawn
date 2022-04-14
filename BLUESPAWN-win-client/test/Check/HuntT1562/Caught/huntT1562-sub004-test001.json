@@ -1,0 +1,22 @@
+{
+	"detections": [
+		{
+			"type": "Registry",
+			"hunt": "T1562 - Impair Defenses Subtechnique 004: Disable or Modify System Firewall",
+			"Key Path": "HKEY_LOCAL_MACHINE\\SYSTEM\\ControlSet001\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\DomainProfile\\AuthorizedApplications\\List",
+			"Key Value Data": "",
+			"Key Value Name": "C:\\Windows\\Temp\\T1562004001.exe",
+			"Registry Entry Type": "Configuration",
+			"Fail Message": "HuntT1562-sub004-test001 Failed! Registry key not found!",
+			"Pass Message": "HuntT1562-sub004-test001 Passed!"
+		},
+		{
+			"type": "File",
+			"hunt": "T1562 - Impair Defenses Subtechnique 004: Disable or Modify System Firewall",
+			"Name": "C:\\Windows\\Temp\\T1562004001.exe",
+			"Malicious Yara Rules": "*",
+			"Fail Message": "HuntT1562-sub004-test001 Failed! File not found!",
+			"Pass Message": "HuntT1562-sub004-test001 Passed!"
+		}
+	]
+}

@@ -1,0 +1,14 @@
+{
+	"detections": [
+		{
+			"type": "Registry",
+			"hunt": "T1562 - Impair Defenses Subtechnique 004: Disable or Modify System Firewall",
+			"Key Path": "HKEY_LOCAL_MACHINE\\SYSTEM\\ControlSet001\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\PublicProfile\\GloballyOpenPorts\\List",
+			"Key Value Data": "",
+			"Key Value Name": "1562",
+			"Registry Entry Type": "Configuration",
+			"Fail Message": "HuntT1562-sub004-test002 Failed! Registry key not found!",
+			"Pass Message": "HuntT1562-sub004-test002 Passed!"
+		}
+	]
+}

@@ -1,0 +1,32 @@
+{
+	"detections": [
+		{
+			"type": "Registry",
+			"hunt": "T1553 - Subvert Trust Controls Subtechnique 003: SIP and Trust Provider Hijacking",
+			"Key Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Cryptography\\OID\\EncodingType 0\\CryptSIPDllIsMyFileType2\\{000C10F1-0000-0000-C000-155300300346}",
+			"Key Value Data": "C:\\Windows\\Temp\\T1553003003.dll",
+			"Key Value Name": "Dll",
+			"Registry Entry Type": "File",
+			"Fail Message": "HuntT1553-sub003-test003 Failed! Registry key not found!",
+			"Pass Message": "HuntT1553-sub003-test003 Passed!"
+		},
+		{
+			"type": "Registry",
+			"hunt": "T1553 - Subvert Trust Controls Subtechnique 003: SIP and Trust Provider Hijacking",
+			"Key Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Cryptography\\OID\\EncodingType 0\\CryptSIPDllIsMyFileType2\\{000C10F1-0000-0000-C000-155300300346}",
+			"Key Value Data": "Evil",
+			"Key Value Name": "FuncName",
+			"Registry Entry Type": "Configuration",
+			"Fail Message": "HuntT1553-sub003-test003 Failed! Registry key not found!",
+			"Pass Message": "HuntT1553-sub003-test003 Passed!"
+		},
+		{
+			"type": "File",
+			"hunt": "*",
+			"Name": "C:\\Windows\\Temp\\T1553003003.dll",
+			"Malicious Yara Rules": "*",
+			"Fail Message": "HuntT1553-sub003-test003 Failed! File not found!",
+			"Pass Message": "HuntT1553-sub003-test003 Passed!"
+		}
+	]
+}

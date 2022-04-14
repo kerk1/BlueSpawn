@@ -1,0 +1,14 @@
+{
+	"detections": [
+		{
+			"type": "Registry",
+			"hunt": "T1553 - Subvert Trust Controls Subtechnique 003: SIP and Trust Provider Hijacking",
+			"Key Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Cryptography\\OID\\EncodingType 0\\CryptSIPDllIsMyFileType2\\{000C10F1-0000-0000-C000-000000000046}",
+			"Key Value Data": "Evil",
+			"Key Value Name": "FuncName",
+			"Registry Entry Type": "Configuration",
+			"Fail Message": "HuntT1553-sub003-test002 Failed! Registry key not found!",
+			"Pass Message": "HuntT1553-sub003-test002 Passed!"
+		}
+	]
+}
